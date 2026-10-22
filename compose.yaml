@@ -1,0 +1,17 @@
+# Local development only. It uses a persistent Docker volume and the clearly labelled local admin identity.
+# Do not expose this service publicly. Production deployments must configure OIDC, MongoDB and secret storage.
+services:
+  civicfix:
+    build: .
+    ports:
+      - "127.0.0.1:${CIVICFIX_PORT:-8501}:8501"
+    environment:
+      CIVICFIX_ENV: development
+      CIVICFIX_DB_PATH: /app/data/civicfix.db
+      CIVICFIX_AUTO_SEED: "false"
+    volumes:
+      - civicfix-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  civicfix-data:

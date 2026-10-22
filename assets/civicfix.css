@@ -1,0 +1,262 @@
+/* ==========================================================================
+   CivicFix AI: stylesheet
+   Concept: municipal signage and road markings.
+   Asphalt-dark header band, paper-light workspace, one signature device:
+   the yellow dashed centre-line (hero divider + status "lane" tracker).
+   Load via ui.inject_css() (see README of changes). Pair with .streamlit/config.toml.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+:root {
+  --cf-asphalt: #16222e;
+  --cf-asphalt-2: #223344;
+  --cf-paper: #f6f6f1;
+  --cf-card: #ffffff;
+  --cf-line: #d9dcd3;
+  --cf-ink: #16222e;
+  --cf-muted: #5b6672;
+  --cf-signal: #f2b705;       /* road-marking yellow */
+  --cf-signal-ink: #3a2c00;
+  --cf-teal: #0f766e;         /* primary action */
+  --cf-teal-dark: #0b5a54;
+  --cf-blue: #1d5fa8;
+  --cf-amber: #b45309;
+  --cf-red: #b42318;
+  --cf-green: #2e7d32;
+  --cf-radius: 14px;          /* cards */
+  --cf-radius-sm: 8px;        /* controls, chips */
+  --cf-font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --cf-font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --cf-focus: #1d5fa8;
+}
+
+/* ---------- Base --------------------------------------------------------- */
+html, body, [data-testid="stAppViewContainer"], .stApp {
+  font-family: var(--cf-font-body);
+  background: var(--cf-paper);
+  color: var(--cf-ink);
+}
+.block-container { max-width: 1240px; padding: 1.25rem 1.5rem 3rem; }
+h1, h2, h3, .cp-brand-name, .cp-stat-value {
+  font-family: var(--cf-font-display);
+  letter-spacing: -0.02em;
+  color: var(--cf-ink);
+}
+h1 { font-weight: 800; }
+h2, h3 { font-weight: 700; }
+p, li, label, .stMarkdown { line-height: 1.55; }
+[data-testid="stCaptionContainer"], .stCaption { color: var(--cf-muted); }
+hr { border-color: var(--cf-line); }
+
+/* Visible keyboard focus everywhere */
+button:focus-visible, input:focus-visible, textarea:focus-visible,
+select:focus-visible, [role="tab"]:focus-visible, a:focus-visible,
+[data-baseweb="select"]:focus-within {
+  outline: 3px solid var(--cf-focus) !important;
+  outline-offset: 2px;
+}
+
+/* ---------- Sidebar ------------------------------------------------------ */
+[data-testid="stSidebar"] {
+  background: var(--cf-asphalt);
+  border-right: 4px solid var(--cf-signal);
+}
+[data-testid="stSidebar"] * { color: #e8edf2; }
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] { color: #a9b6c3; }
+[data-testid="stSidebarNav"] a { border-radius: var(--cf-radius-sm); padding: .35rem .6rem; }
+[data-testid="stSidebarNav"] a:hover { background: var(--cf-asphalt-2); }
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+  background: var(--cf-signal);
+}
+[data-testid="stSidebarNav"] a[aria-current="page"] * { color: var(--cf-signal-ink); font-weight: 600; }
+[data-testid="stSidebar"] .stButton > button {
+  background: transparent; color: #e8edf2; border: 1px solid #4a5b6c;
+}
+[data-testid="stSidebar"] .stButton > button:hover { border-color: var(--cf-signal); color: #fff; }
+
+/* ---------- Buttons ------------------------------------------------------ */
+.stButton > button, .stDownloadButton > button, [data-testid="stPageLink"] a {
+  border-radius: var(--cf-radius-sm);
+  font-weight: 600;
+  border: 1px solid var(--cf-line);
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.stButton > button:hover { border-color: var(--cf-teal); color: var(--cf-teal-dark); }
+.stButton > button[kind="primary"],
+[data-testid="stBaseButton-primary"] {
+  background: var(--cf-teal); color: #fff; border-color: var(--cf-teal);
+}
+.stButton > button[kind="primary"]:hover,
+[data-testid="stBaseButton-primary"]:hover { background: var(--cf-teal-dark); color: #fff; }
+.stButton > button:disabled { opacity: .5; }
+
+/* ---------- Inputs ------------------------------------------------------- */
+.stTextInput input, .stTextArea textarea, .stNumberInput input,
+[data-baseweb="select"] > div, .stDateInput input {
+  border-radius: var(--cf-radius-sm) !important;
+  border-color: var(--cf-line) !important;
+  background: #fff !important;
+}
+.stTextArea textarea { min-height: 9rem; }
+
+/* ---------- Tabs, expanders, forms -------------------------------------- */
+[data-baseweb="tab-list"] { gap: .25rem; border-bottom: 1px solid var(--cf-line); }
+[data-baseweb="tab"] { font-weight: 600; border-radius: var(--cf-radius-sm) var(--cf-radius-sm) 0 0; }
+[data-baseweb="tab"][aria-selected="true"] { color: var(--cf-teal-dark); }
+[data-baseweb="tab-highlight"] { background: var(--cf-signal) !important; height: 3px !important; }
+[data-testid="stExpander"] {
+  background: var(--cf-card); border: 1px solid var(--cf-line); border-radius: var(--cf-radius);
+}
+[data-testid="stForm"] {
+  background: var(--cf-card); border: 1px solid var(--cf-line); border-radius: var(--cf-radius); padding: 1.25rem;
+}
+[data-testid="stDataFrame"] { border: 1px solid var(--cf-line); border-radius: var(--cf-radius-sm); overflow: hidden; }
+
+/* ---------- Native metrics (dashboard) ---------------------------------- */
+[data-testid="stMetric"] {
+  background: var(--cf-card); border: 1px solid var(--cf-line);
+  border-top: 4px solid var(--cf-asphalt-2);
+  border-radius: var(--cf-radius); padding: .8rem 1rem;
+}
+[data-testid="stMetricLabel"] { color: var(--cf-muted); font-weight: 500; }
+[data-testid="stMetricValue"] { font-family: var(--cf-font-display); font-weight: 800; }
+
+/* ---------- Existing helpers (kept, restyled) --------------------------- */
+.badge {
+  display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: .78rem;
+  font-weight: 600; color: #fff; line-height: 1.6; white-space: nowrap;
+}
+.sim-note {
+  border-left: 5px solid var(--cf-signal); background: #fff8dc; color: var(--cf-signal-ink);
+  padding: .65rem .95rem; border-radius: 0 var(--cf-radius-sm) var(--cf-radius-sm) 0;
+  font-size: .92rem; margin: .5rem 0 1rem;
+}
+.cf-lock { border: 1px dashed var(--cf-line); border-radius: var(--cf-radius); padding: .6rem .9rem; margin: .25rem 0 1rem; }
+.cf-step { font-size: .85rem; font-weight: 600; color: var(--cf-teal-dark); }
+
+/* ---------- Landing page (cp-* classes used by app.py) ------------------ */
+.cp-topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  margin: 0 0 1.25rem;
+}
+.cp-brand { display: flex; align-items: center; gap: .75rem; }
+.cp-logo {
+  font-size: 1.8rem; background: var(--cf-signal); border-radius: 12px; padding: .3rem .5rem;
+  line-height: 1;
+}
+.cp-brand-name { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+.cp-brand-name span { color: var(--cf-teal); }
+.cp-tagline { font-size: .85rem; color: var(--cf-muted); margin-top: .15rem; }
+.cp-topnote {
+  font-size: .8rem; color: var(--cf-muted); border: 1px solid var(--cf-line);
+  border-radius: 999px; padding: .4rem .85rem; background: #fff;
+}
+
+.cp-hero {
+  position: relative; text-align: left; background: var(--cf-asphalt); color: #fff;
+  border-radius: var(--cf-radius); padding: 2.5rem 2.25rem 3rem; margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+/* signature device: the dashed centre-line */
+.cp-hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 1.1rem; height: 5px;
+  background: repeating-linear-gradient(90deg, var(--cf-signal) 0 34px, transparent 34px 60px);
+}
+.cp-eyebrow { color: var(--cf-signal); font-size: .9rem; font-weight: 600; margin-bottom: .4rem; display: block; }
+.cp-hero h1 {
+  color: #fff; font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.05; margin: 0 0 .6rem; max-width: 16ch;
+}
+.cp-hero h1 span { color: var(--cf-signal); background: none; -webkit-text-fill-color: currentColor; }
+.cp-hero p { color: #cdd7e1; font-size: 1.08rem; max-width: 52ch; margin: 0 0 1.25rem; }
+.cp-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+.cp-pills div {
+  padding: .4rem .8rem; border: 1px solid #44586b; background: var(--cf-asphalt-2);
+  border-radius: var(--cf-radius-sm); color: #e8edf2; font-size: .85rem;
+}
+
+.cp-role-card {
+  min-height: 280px; padding: 1.4rem 1.5rem 1.1rem; border-radius: var(--cf-radius);
+  background: var(--cf-card); border: 1px solid var(--cf-line); border-top: 6px solid var(--cf-teal);
+  color: var(--cf-ink); margin: .25rem 0 .75rem;
+}
+.cp-admin { border-top-color: var(--cf-signal); }
+.cp-role-icon {
+  float: left; margin-right: .8rem; border-radius: 12px; background: var(--cf-teal); color: #fff;
+  width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+}
+.cp-admin .cp-role-icon { background: var(--cf-signal); }
+.cp-role-card h2 { font-size: 1.45rem; margin: .3rem 0 .4rem; color: var(--cf-ink); }
+.cp-role-card p { clear: both; padding-top: .8rem; color: var(--cf-muted); min-height: 2.8rem; }
+.cp-role-card ul { padding-left: 0; list-style: none; margin: .5rem 0 0; }
+.cp-role-card li { margin: .5rem 0; color: var(--cf-ink); font-size: .94rem; }
+
+.cp-stats-heading { font-family: var(--cf-font-display); font-size: 1.25rem; font-weight: 700; margin: 1.75rem 0 .75rem; }
+.cp-stat {
+  display: flex; align-items: center; gap: .8rem; background: var(--cf-card);
+  border: 1px solid var(--cf-line); border-left: 6px solid var(--cf-blue);
+  border-radius: var(--cf-radius); padding: 1rem; min-height: 92px;
+}
+.cp-green { border-left-color: var(--cf-green); }
+.cp-purple { border-left-color: var(--cf-asphalt-2); }
+.cp-amber { border-left-color: var(--cf-signal); }
+.cp-stat-icon { font-size: 1.5rem; }
+.cp-stat-value { font-size: 1.7rem; font-weight: 800; line-height: 1.1; color: var(--cf-ink); }
+.cp-stat-label { font-size: .85rem; color: var(--cf-muted); margin-top: .15rem; }
+.cp-footer { text-align: center; color: var(--cf-muted); font-size: .92rem; margin: 1.5rem 0 .5rem; }
+.cp-footer span { font-size: .8rem; }
+
+/* ---------- NEW: status "lane" tracker (see ui.status_tracker) ---------- */
+.cf-lane { display: flex; list-style: none; margin: .75rem 0 1.25rem; padding: 0; }
+.cf-lane li {
+  flex: 1; position: relative; text-align: center; font-size: .85rem; color: var(--cf-muted);
+  padding-top: 2rem;
+}
+.cf-lane li::before {            /* the stop */
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 3px solid var(--cf-line);
+  z-index: 1;
+}
+.cf-lane li::after {             /* the dashed road to the next stop */
+  content: ""; position: absolute; top: 8px; left: 50%; width: 100%; height: 4px;
+  background: repeating-linear-gradient(90deg, var(--cf-line) 0 10px, transparent 10px 16px);
+}
+.cf-lane li:last-child::after { display: none; }
+.cf-lane li.done { color: var(--cf-ink); }
+.cf-lane li.done::before { background: var(--cf-teal); border-color: var(--cf-teal); }
+.cf-lane li.done::after {
+  background: repeating-linear-gradient(90deg, var(--cf-teal) 0 10px, transparent 10px 16px);
+}
+.cf-lane li.current { color: var(--cf-ink); font-weight: 700; }
+.cf-lane li.current::before { background: var(--cf-signal); border-color: var(--cf-asphalt); }
+
+/* ---------- NEW: complaint card (see ui.complaint_card) ----------------- */
+.cf-card {
+  background: var(--cf-card); border: 1px solid var(--cf-line); border-left: 6px solid var(--cf-muted);
+  border-radius: var(--cf-radius); padding: .9rem 1.1rem; margin: 0 0 .75rem;
+}
+.cf-card-head { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-bottom: .35rem; }
+.cf-card-id { font-family: var(--cf-font-display); font-weight: 700; margin-right: auto; }
+.cf-card-title { font-weight: 600; margin: 0 0 .2rem; }
+.cf-card-meta { color: var(--cf-muted); font-size: .85rem; }
+.cf-p-low { border-left-color: #546e7a; }
+.cf-p-medium { border-left-color: var(--cf-amber); }
+.cf-p-high { border-left-color: var(--cf-red); }
+.cf-p-critical { border-left-color: #7f1d1d; box-shadow: inset 0 0 0 1px #7f1d1d22; }
+
+/* ---------- Responsive --------------------------------------------------- */
+@media (max-width: 800px) {
+  .cp-topnote { display: none; }
+  .cp-hero { padding: 1.6rem 1.25rem 2.4rem; }
+  .cp-role-card { min-height: 0; }
+  .cp-stat { padding: .7rem .6rem; gap: .5rem; }
+  .cp-stat-value { font-size: 1.3rem; }
+}
+@media (max-width: 640px) {
+  .block-container { padding: 1rem .75rem 2rem; }
+  .cf-lane li { font-size: .72rem; }
+  .cp-brand-name { font-size: 1.3rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

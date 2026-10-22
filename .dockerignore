@@ -1,0 +1,12 @@
+.env
+.streamlit/secrets.toml
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.py[cod]
+data/civicfix.db
+data/uploads/
+tests/
+docs/
