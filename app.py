@@ -59,15 +59,24 @@ def home() -> None:
         else:
             st.info("Staff tools are available only to authorized staff accounts.")
 
+    # st.markdown('<div class="cp-stats-heading">Civic issue overview</div>', unsafe_allow_html=True)
+    # metrics = st.columns(4, gap="medium")
     st.markdown('<div class="cp-stats-heading">Civic issue overview</div>', unsafe_allow_html=True)
     metrics = st.columns(4, gap="medium")
-    metric_items = [("📨", stats["total"], "Total reports", "blue"),
-                    ("🟢", stats["resolved"], "Resolved reports", "green"),
-                    ("⏱️", stats["pending"], "Pending reports", "purple"),
-                    ("📋", stats["in_progress"], "In progress", "amber")]
-    for col, (icon, value, label, color) in zip(metrics, metric_items):
+    metric_items = [("Total", stats["total"]),
+                    ("Pending", stats["pending"]),
+                    ("In Progress", stats["in_progress"]),
+                    ("Resolved", stats["resolved"])]
+    for col, (label, value) in zip(metrics, metric_items):
         with col:
-            st.markdown(f'<div class="cp-stat cp-{color}"><div class="cp-stat-icon">{icon}</div><div><div class="cp-stat-value">{value}</div><div class="cp-stat-label">{label}</div></div></div>', unsafe_allow_html=True)
+            st.metric(label, value, border=True)
+    # metric_items = [("📨", stats["total"], "Total reports", "blue"),
+    #                 ("🟢", stats["resolved"], "Resolved reports", "green"),
+    #                 ("⏱️", stats["pending"], "Pending reports", "purple"),
+    #                 ("📋", stats["in_progress"], "In progress", "amber")]
+    # for col, (icon, value, label, color) in zip(metrics, metric_items):
+    #     with col:
+    #         st.markdown(f'<div class="cp-stat cp-{color}"><div class="cp-stat-icon">{icon}</div><div><div class="cp-stat-value">{value}</div><div class="cp-stat-label">{label}</div></div></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="cp-footer">Together for a better, cleaner and smarter tomorrow 🌱<br><span>Prototype: routing, reminders and status changes are simulated; no real department is contacted.</span></div>', unsafe_allow_html=True)
 
