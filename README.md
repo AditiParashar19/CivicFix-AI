@@ -175,5 +175,3 @@ This repository is a tested prototype, not a production-ready municipal service.
 3. Move follow-up evaluation to a monitored background worker with bounded retries and idempotent delivery. The current agent only recommends actions when a page is opened.
 4. Configure managed persistent storage, protected image storage, backups and a tested recovery procedure. Local SQLite and server-local uploads are for development; MongoDB connection settings alone do not provide backups or file persistence.
 5. Complete deployment-specific security review, HTTPS and secret configuration, rate limits, and operational monitoring before public access.
-
-Do not expose this prototype publicly with real complaint data until these gates are implemented and independently reviewed. Keep `CIVICFIX_ENV=development` for local demos and use only fictional sample records.
